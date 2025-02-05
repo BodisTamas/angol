@@ -57,8 +57,10 @@
                    console.log('Siker ' + data.values.length);
                    actualWordIndex=0;
                    wordList = new Array();
-                   for(const element of data.values){
-                       wordList.push({en: element[0], hu: element[1]});
+                   if(data.values.length > 1){
+                     for(let i=1; i<data.values.length; i++){
+                        wordList.push({en: data.values[i][0], hu: data.values[i][1]});
+                     }
                    }
                    console.log('words ' + JSON.stringify(wordList));
 
