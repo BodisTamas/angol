@@ -12,13 +12,15 @@
 <script>
         const cardCount = 4;
         var allWord;
+        var sheetName, sheetRange, actualWords;
         var queryParams = loadQueryParameters();
         async function init() {
-            let sheetName, sheetRange;
+            
             queryParams.forEach(param => {
                 if(param.key === 'sheet'){
                     sheetName = param.value;
                 } else if(param.key === 'type'){
+                    actualWords = param.value;
                     if(param.value === 'known'){
                         sheetRange = 'A1:B998';
                     } else {
@@ -80,7 +82,7 @@
 
         function createCard(lang, idx) { 
             const fragment = document.createRange().createContextualFragment(`
-                <div id="${lang}${idx}" class="wordcard col-6 text-center p-4 card bg-dark text-white " data-lang="${lang}" data-idx="${idx}">
+                <div id="${lang}${idx}" class="wordcard col-6 text-center p-4 card bg-dark text-white border border-white" data-lang="${lang}" data-idx="${idx}">
                     <div class="card-body d-flex align-items-center justify-content-center">
                         <h3 id="w${lang}${idx}"></h3>
                     </div>
@@ -94,23 +96,24 @@
             document.getElementById(`${lang}${idx}`).classList.add('bg-dark');
             document.getElementById(`w${lang}${idx}`).innerText = word;
         }
+
+        function goHome(){
+            window.location.href = 'index.html?sheet=' + sheetName + '&type=' + actualWords;
+        }
 </script>
 <body>
     
     <div id="cards" class="container-fluid min-vh-100 d-flex flex-column p-2">
-        <div class="card bg-primary text-white text-center" onclick="window.location.href='index.html'">
+        <div class="card bg-primary text-white text-center" onclick="goHome()">
             <h1><i class="fa fa-home" aria-hidden="true"></i>Home</h1>
         </div>
-        <div class="card bg-primary text-white text-center">
+        <div class="mt-2 card bg-success text-white text-center">
             <h1 id="actualHu">&nbsp;</h1>
         </div>
         <div id="cardrow" class="row flex-grow-1 p-3" ></div>
         <div class="row ps-2">
             <div class="col-4 ">
-                <button class="col-12 btn btn-dark" >
-                    <i class="fa fa-arrow-left"></i>
-                    <span>Back</span>
-                </button>
+                &nbsp;
             </div>
             <div class="col-4 text-center">
                 <h3 class="col-12" style="display: inline;" id="actualWord">&nbsp;</h3>

@@ -12,10 +12,9 @@
         var actualWordIndex = 0;
         var enDisplayed = true;
         var wordList = new Array();
-        var apiKey = 'AIzaSyCyUpi3OCSyXEti7kzMn-Sia5ucwce8YQs';
-        var sheetId = '11UCGxa7EAQf_xTrIB2dLQ2zBqiCKZ7SOIylishPYbgs';
-        var requestUri ;
-        
+
+        var queryParams = loadQueryParameters();
+      
         function changeSheet(){
             let sheetButton = document.getElementById('sheet');
             if('Tomi' === sheetButton.innerText){
@@ -56,6 +55,24 @@
         function redirect(page){
             window.location.href = page + '.html?sheet=' + document.getElementById('sheet').innerText + '&type=' + document.getElementById('deckButtonText').innerText.toLowerCase();
         }
+
+        function init(){
+            queryParams.forEach(param => {
+                if(param.key === 'sheet'){
+                    document.getElementById('sheet').innerText = param.value;
+                } else if(param.key === 'type'){
+                    if(param.value === 'known'){
+                        document.getElementById('deckButtonText').innerText = 'Known';
+                        document.getElementById('deckButtonIcon').classList.add('fa-exclamation');
+                        document.getElementById('deckButton').classList.add('btn-success');
+                    } else {
+                        document.getElementById('deckButtonText').innerText = 'Unknown';
+                        document.getElementById('deckButtonIcon').classList.add('fa-question');
+                        document.getElementById('deckButton').classList.add('btn-info');
+                    }
+                }
+            });
+        }
     </script>
 
     <body>    
@@ -75,24 +92,26 @@
                     </div>
             </div>
             <div class="row flex-grow-1 p-3">
-                <div class="wordcard col-12 text-center p-4 card bg-dark text-white " onclick="redirect('flashcard')">
+                <div class="wordcard col-12 text-center p-4 card bg-dark text-white border border-white" onclick="redirect('flashcard')">
                     <div class="card-body d-flex align-items-center justify-content-center">
-                        <h3 id="w${lang}${idx}">Flashcard</h3>
+                        <h3 id="w${lang}${idx}"><i class="fa fa-square-o" aria-hidden="true"></i> Flashcard</h3>
                     </div>
                 </div>   
-                <div class="wordcard col-12 text-center p-4 card bg-dark text-white " onclick="redirect('pairing')">
+                <div class="wordcard col-12 text-center p-4 card bg-dark text-white border border-white" onclick="redirect('pairing')">
                     <div class="card-body d-flex align-items-center justify-content-center">
-                        <h3 id="w${lang}${idx}">Pairing</h3>
+                        <h3 id="w${lang}${idx}"><i class="fa fa-th-large" aria-hidden="true"></i> Pairing</h3>
                     </div>
                 </div> 
-                <div class="wordcard col-12 text-center p-4 card bg-dark text-white " onclick="redirect('learnwords')">
+                <div class="wordcard col-12 text-center p-4 card bg-dark text-white border border-white" onclick="redirect('learnwords')">
                     <div class="card-body d-flex align-items-center justify-content-center">
-                        <h3 id="w${lang}${idx}">LearnWords</h3>
+                        <h3 id="w${lang}${idx}"><i class="fa fa-university" aria-hidden="true"></i> Learn Words</h3>
                     </div>
                 </div> 
             </div>
             
         </div>
     </body>
-
+    <script>
+        init();
+    </script>
 </html>
