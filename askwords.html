@@ -81,6 +81,15 @@
         function goHome(){
             window.location.href = 'index.html?sheet=' + sheetName + '&type=' + actualWords;
         }
+
+        function help(){
+            const helpText = document.getElementById('helpText');
+            
+            helpText.innerText = allWord[wordIdx].en;
+            setTimeout(() => {
+                helpText.innerText = '';
+            }, 2500);
+        }
 </script>
 <body>
     
@@ -97,12 +106,14 @@
             <input type="text" id="en" class="form-control">
             <div class="input-group-append">
 
-                <button class="btn btn-info" onclick="alert(allWord[wordIdx].en)">
+                <button class="btn btn-info" onclick="help()">
                     <i class="fa fa-question-circle-o" aria-hidden="true"></i>
                 </button>
             </div>
             </div>
-        
+        <div class="row ps-2">
+            <h1 id="helpText">&nbsp;</h1>
+        </div>
         <div class="row p-3">
             <button id="checkButton" class="col-12 btn btn-dark" onclick="check()">
                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
