@@ -30,15 +30,26 @@
             });
             allWord = await getWords(sheetName, sheetRange);
             shuffle(allWord);
+            initCards();
+            start(0);
+        }
+
+        function initCards(){
+            document.getElementById('cardrow').innerHTML = '';
             for(let i=0; i<cardCount; i++){
                 document.getElementById('cardrow').appendChild(createCard('en', i));
             }
-            start(0);
         }
 
         function getPossibleEnglish() {
             let randomIndex = Math.floor(Math.random() * allWord.length);
             return allWord[randomIndex].en;
+        }
+
+        function restart(){
+            shuffle(allWord);
+            initCards();
+            start(0);
         }
 
         async function start(wordIdx) {
@@ -71,6 +82,8 @@
                             setTimeout(() => {
                                 start(wordIdx+1);
                             }, 200);
+                        } else {
+                            document.getElementById('cardrow').innerHTML = '<button class="btn btn-info" onclick="restart()"><h1><i class="fa fa-repeat" aria-hidden="true"></i>Repeat</h1></button>';
                         }
                     } else {
                         actualCard.classList.add('bg-danger');
