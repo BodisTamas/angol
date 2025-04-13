@@ -54,7 +54,7 @@
             document.getElementById('wordCard').classList.add('bg-dark');
             document.getElementById('word').innerText = wordList[this.actualWordIndex].hu;
             document.getElementById('actualWord').innerText = (this.actualWordIndex + 1) + '/' + (wordList.length);
-            this.enDisplayed = true;
+            this.enDisplayed = false;
         }
 
         async function loadDeck(){
