@@ -13,7 +13,7 @@
         console.log(window.location.search.substring(1));
 
         var actualWordIndex = 0;
-        var enDisplayed = true;
+        var enDisplayed = false;
         var wordList = new Array();
         var sheetName, sheetRange, actualWords;
        
@@ -30,10 +30,10 @@
             document.getElementById('wordCard').classList.remove('bg-secondary','bg-dark');
             if(this.enDisplayed){
                 document.getElementById('wordCard').classList.add('bg-secondary');
-                document.getElementById('word').innerText = wordList[this.actualWordIndex].en;
+                document.getElementById('word').innerText = wordList[this.actualWordIndex].hu;
             } else {
                 document.getElementById('wordCard').classList.add('bg-dark');
-                document.getElementById('word').innerText = wordList[this.actualWordIndex].hu;
+                document.getElementById('word').innerText = wordList[this.actualWordIndex].en;
             }
             this.enDisplayed = !this.enDisplayed;
         }
