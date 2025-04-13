@@ -29,10 +29,10 @@
         function flip(){
             document.getElementById('wordCard').classList.remove('bg-secondary','bg-dark');
             if(this.enDisplayed){
-                document.getElementById('wordCard').classList.add('bg-secondary');
+                document.getElementById('wordCard').classList.add('bg-dark');
                 document.getElementById('word').innerText = wordList[this.actualWordIndex].hu;
             } else {
-                document.getElementById('wordCard').classList.add('bg-dark');
+                document.getElementById('wordCard').classList.add('bg-secondary');
                 document.getElementById('word').innerText = wordList[this.actualWordIndex].en;
             }
             this.enDisplayed = !this.enDisplayed;
