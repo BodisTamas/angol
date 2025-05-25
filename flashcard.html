@@ -20,6 +20,14 @@
         var queryParams = loadQueryParameters();
 
         function step(direction){
+            
+            if(actualWordIndex + direction == wordList.length){
+                console.log('restart');
+                document.getElementById('wordCard').classList.remove('bg-secondary','bg-dark');
+                document.getElementById('wordCard').classList.add('bg-primary');
+                document.getElementById('word').innerText = 'Repeat';
+                return;
+            } 
             if(actualWordIndex + direction >= 0 && actualWordIndex + direction < wordList.length){
                 actualWordIndex = actualWordIndex + direction;
             }
@@ -27,6 +35,12 @@
         }
 
         function flip(){
+            if(actualWordIndex + 1 == wordList.length){
+                actualWordIndex = 0;
+                enDisplayed = false;
+                changeWord();
+                return;
+            }
             document.getElementById('wordCard').classList.remove('bg-secondary','bg-dark');
             if(this.enDisplayed){
                 document.getElementById('wordCard').classList.add('bg-dark');
