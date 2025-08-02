@@ -14,6 +14,8 @@
         var allWord;
         var sheetName, sheetRange, actualWords;
         var queryParams = loadQueryParameters();
+        var lang = 'hu';
+        var oppositeLang = 'en';
         async function init() {
             
             queryParams.forEach(param => {
@@ -26,6 +28,15 @@
                     } else {
                         sheetRange = 'C1:D998';
                     }
+                } else if(param.key === 'lang'){
+                    if(param.value === 'en'){
+                        oppositeLang = 'hu';
+                        lang = 'en';
+                    } else {
+                        lang = 'hu';
+                        oppositeLang = 'en';
+                    }
+                    document.getElementById('actualLang').src = `./${oppositeLang}.png`;
                 }
             });
             allWord = await getWords(sheetName, sheetRange);
@@ -37,13 +48,13 @@
         function initCards(){
             document.getElementById('cardrow').innerHTML = '';
             for(let i=0; i<cardCount; i++){
-                document.getElementById('cardrow').appendChild(createCard('en', i));
+                document.getElementById('cardrow').appendChild(createCard(lang, i));
             }
         }
 
-        function getPossibleEnglish() {
+        function getPossible() {
             let randomIndex = Math.floor(Math.random() * allWord.length);
-            return allWord[randomIndex].en;
+            return allWord[randomIndex][lang];
         }
 
         function restart(){
@@ -52,12 +63,24 @@
             start(0);
         }
 
+        function switchLang(){
+            if(lang === 'hu'){
+                lang = 'en';
+                oppositeLang = 'hu';
+            } else {
+                lang = 'hu';
+                oppositeLang = 'en';
+            }
+            document.getElementById('actualLang').src = `./${oppositeLang}.png`;
+            restart();
+        }
+
         async function start(wordIdx) {
             document.getElementById('actualWord').innerText = `${wordIdx + 1} / ${allWord.length}`;
             let p = [];
-            p.push(allWord[wordIdx].en);
+            p.push(allWord[wordIdx][lang]);
             for(let i=0; i<cardCount-1; i++){
-                const possible = getPossibleEnglish();
+                const possible = getPossible();
                 if(p.includes(possible)){
                     i--;
                     continue;
@@ -66,16 +89,16 @@
             }
             shuffle(p);
 
-            document.getElementById('actualHu').innerText = allWord[wordIdx].hu;
+            document.getElementById('actualHu').innerText = allWord[wordIdx][oppositeLang];
             for(let i=0; i<cardCount; i++){
-                updateCard('en', i, p[i]);
+                updateCard(lang, i, p[i]);
             }
 
             for (let card of document.getElementsByClassName('wordcard')) {
                 card.onclick = function () {
                     const cardIdx = card.getAttribute('data-idx');
-                    const actualCard = document.getElementById(`en${cardIdx}`);
-                    if(allWord[wordIdx].en === p[cardIdx]){
+                    const actualCard = document.getElementById(`${lang}${cardIdx}`);
+                    if(allWord[wordIdx][lang] === p[cardIdx]){
                         actualCard.classList.add('bg-success');
                         actualCard.classList.remove('bg-dark');
                         if(wordIdx < allWord.length - 1){                         
@@ -117,8 +140,14 @@
 <body>
     
     <div id="cards" class="container-fluid min-vh-100 d-flex flex-column p-2">
-        <div class="card bg-primary text-white text-center" onclick="goHome()">
-            <h1><i class="fa fa-home" aria-hidden="true"></i>Home</h1>
+        <div class="d-flex">
+            <div class="col-10 bg-primary text-white text-center " onclick="goHome()">
+                <h1><i class="fa fa-home" aria-hidden="true"></i>Home</h1>
+            </div>
+            <div class="col-2 bg-primary text-white text-center" onclick="switchLang()">
+                <img id="actualLang" class="w-100 h-100"  src="./hu.png"/>
+            </div>
+            
         </div>
         <div class="mt-2 card bg-success text-white text-center">
             <h1 id="actualHu">&nbsp;</h1>
