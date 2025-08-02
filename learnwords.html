@@ -29,12 +29,11 @@
                         sheetRange = 'C1:D998';
                     }
                 } else if(param.key === 'lang'){
-                    if(param.value === 'en'){
-                        oppositeLang = 'hu';
-                        lang = 'en';
-                    } else {
-                        lang = 'hu';
+                    lang = param.value;
+                    if(lang === 'hu'){
                         oppositeLang = 'en';
+                    } else {
+                        oppositeLang = 'hu';
                     }
                     document.getElementById('actualLang').src = `./${oppositeLang}.png`;
                 }
