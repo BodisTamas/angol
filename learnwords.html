@@ -16,6 +16,7 @@
         var queryParams = loadQueryParameters();
         var lang = 'hu';
         var oppositeLang = 'en';
+        var goodCount, badCount;
         async function init() {
             
             queryParams.forEach(param => {
@@ -41,6 +42,8 @@
             allWord = await getWords(sheetName, sheetRange);
             shuffle(allWord);
             initCards();
+             goodCount = 0;
+            badCount = 0;
             start(0);
         }
 
@@ -59,6 +62,8 @@
         function restart(){
             shuffle(allWord);
             initCards();
+             goodCount = 0;
+            badCount = 0;
             start(0);
         }
 
@@ -98,6 +103,9 @@
                     const cardIdx = card.getAttribute('data-idx');
                     const actualCard = document.getElementById(`${lang}${cardIdx}`);
                     if(allWord[wordIdx][lang] === p[cardIdx]){
+                        if(goodCount + badCount < wordIdx + 1){
+                            goodCount++;
+                        }
                         actualCard.classList.add('bg-success');
                         actualCard.classList.remove('bg-dark');
                         if(wordIdx < allWord.length - 1){                         
@@ -108,9 +116,13 @@
                             document.getElementById('cardrow').innerHTML = '<button class="btn btn-info" onclick="restart()"><h1><i class="fa fa-repeat" aria-hidden="true"></i>Repeat</h1></button>';
                         }
                     } else {
+                        if(goodCount + badCount < wordIdx + 1){ 
+                            badCount++;
+                        }
                         actualCard.classList.add('bg-danger');
                         actualCard.classList.remove('bg-dark');
                     }
+                    document.getElementById('goodAndBadCount').innerHTML = `<i class="fa fa-check text-success" aria-hidden="true"></i>: ${goodCount} | <i class="fa fa-times text-danger" aria-hidden="true"></i>: ${badCount}`;
                 }
             }
         }
@@ -153,11 +165,11 @@
             <h1 id="actualHu">&nbsp;</h1>
         </div>
         <div id="cardrow" class="row flex-grow-1 p-3" ></div>
-        <div class="row ps-2">
-            <div class="col-4 ">
-                &nbsp;
+        <div class="row ps-2 pe-2">
+            <div class="col-6 ">
+                <h4 id="goodAndBadCount"></h4>
             </div>
-            <div class="col-4 text-center">
+            <div class="col-6 text-end p-2ß">
                 <h3 class="col-12" style="display: inline;" id="actualWord">&nbsp;</h3>
             </div>
         </div>
