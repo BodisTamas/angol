@@ -1,3 +1,4 @@
+var apiKey = 'AIzaSyBaUEtqGwnj7GEIy08Y_ruC2cDZXODRGHc';
 var sheetId = '11UCGxa7EAQf_xTrIB2dLQ2zBqiCKZ7SOIylishPYbgs';
 
 function getWords(sheetName, range){
