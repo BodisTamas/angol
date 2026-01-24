@@ -1,7 +1,5 @@
 var sheetId = '11UCGxa7EAQf_xTrIB2dLQ2zBqiCKZ7SOIylishPYbgs';
 
-            
-
 function getWords(sheetName, range){
     return new Promise(function(resolve, reject){
     let requestUri = 'https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/' + sheetName + '!' + range + '?key=' + apiKey;
